@@ -14,7 +14,7 @@ var Message = mongoose.model('Message', {
 	message: String
 });
 //Connect account password to the DATABASE so the chat will be on fire !!!
-var dbUrl = 'mongodb://jphayek:Jp462017@ds257981.mlab.com:57981/simple-chat';
+var dbUrl = 'mongodb://jphayek:Jp@ds257981.mlab.com:57981/simple-chat';
 mongoose.connect(dbUrl, (err) => {
 	console.log('mongodb connected', err);
 });
