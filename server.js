@@ -14,7 +14,7 @@ var Message = mongoose.model('Message', {
 	message: String
 });
 //Connect account password to the DATABASE so the chat will be on fire !!!
-var dbUrl = 'mongodb://jphayek:Jp462017@ds257981.mlab.com:57981/simple-chat';
+var dbUrl = 'mongodb://jphayek:Jp462017@ds257981.mlab.com:57981/chat-node-js';
 mongoose.connect(dbUrl, (err) => {
 	console.log('mongodb connected', err);
 });
@@ -62,4 +62,22 @@ mongoose.connect(dbUrl, { useMongoClient: true }, (err) => {
 
 var server = http.listen(3000, () => {
 	console.log('server is running on port', server.address().port);
+});
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// so i can get the messages
+app.get('/messages', (req, res) => {
+	Message.find({}, (err, messages) => {
+		res.send(messages);
+	});
+});
+// so i can post this messages
+app.post('/messages', (req, res) => {
+	var message = new Message(req.body);
+	message.save((err) => {
+		if (err) sendStatus(500);
+		res.sendStatus(200);
+	});
 });
